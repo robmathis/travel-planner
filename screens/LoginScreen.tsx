@@ -1,4 +1,3 @@
-// screens/LoginScreen.tsx
 import React, { useState } from 'react';
 import {
   View,
@@ -8,6 +7,7 @@ import {
   Alert,
   StyleSheet,
   ActivityIndicator,
+  Platform,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { supabase } from '../lib/supabase';
@@ -23,20 +23,27 @@ export default function LoginScreen() {
       return Alert.alert('Error', 'Please enter both email and password');
     }
     setLoading(true);
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
+
     setLoading(false);
 
     if (error) {
       Alert.alert('Login failed', error.message);
     } else {
-      // Reset navigation stack and go to Home
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Home' }],
-      });
+      if (Platform.OS === 'web') {
+        // Simple navigate works more reliably in web builds
+        navigation.navigate('Home' as never);
+      } else {
+        // Reset stack on native so back button doesn't return here
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home' as never }],
+        });
+      }
     }
   };
 
@@ -94,3 +101,4 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 });
+
