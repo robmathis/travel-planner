@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Alert,
-  StyleSheet,
-  ActivityIndicator,
-  Platform,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { supabase } from '../lib/supabase';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 export default function LoginScreen() {
-  // ... rest of code
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>🚀 LoginScreen Mounted!</Text>
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  text: { fontSize: 18 },
+});
 
 
